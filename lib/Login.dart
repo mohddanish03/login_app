@@ -47,8 +47,12 @@ class _LoginScreenState extends State<LoginScreen> {
                             controller: _emailCtrl,
                             validator: (value) => validateEmail(value),
                             decoration: InputDecoration(
+                                border: new OutlineInputBorder(
+                                  borderRadius: const BorderRadius.all(
+                                    const Radius.circular(10.0),
+                                  ),
+                                ),
                                 prefixIcon: Icon(Icons.email_outlined),
-                                border: OutlineInputBorder(),
                                 labelText: 'Email'),
                           ),
                           SizedBox(
