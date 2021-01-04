@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:login_app/HomePage.dart';
+import 'package:login_app/Registration.dart';
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({Key key}) : super(key: key);
@@ -21,42 +22,71 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _passCtrl = TextEditingController();
 
   Widget build(BuildContext context) {
-    return Container(
-      child: Scaffold(
-          body: ListView(
+    return Scaffold(
+      body: ListView(
         children: [
-          SizedBox(
-            height: 30,
-          ),
           Column(
             children: [
-              Text(
-                "Sign In",
-                style: TextStyle(fontSize: 20),
-              ),
               Container(
-                width: 360,
-                child: Card(
+                  height: MediaQuery.of(context).size.height / 2.3,
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage('assets/Cafe-Logo.png'),
+                      fit: BoxFit.cover,
+                    ),
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(120.00),
+                    ),
+                  )),
+              SizedBox(
+                height: 20,
+              ),
+              Card(
+                elevation: 8,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                    side: BorderSide(color: Color(0xff273377))),
+                child: Container(
+                  width: 380,
                   child: Padding(
-                    padding: const EdgeInsets.all(10.0),
+                    padding: const EdgeInsets.all(20.0),
                     child: Form(
                       key: formkey,
                       child: Column(
                         children: [
+                          Align(
+                            alignment: Alignment.center,
+                            child: Text(
+                              'SIGN IN  ',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 22,
+                                color: Color(0xff273377),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
                           TextFormField(
                             controller: _emailCtrl,
                             validator: (value) => validateEmail(value),
                             decoration: InputDecoration(
-                                border: new OutlineInputBorder(
-                                  borderRadius: const BorderRadius.all(
-                                    const Radius.circular(10.0),
-                                  ),
+                              border: new OutlineInputBorder(
+                                borderRadius: const BorderRadius.all(
+                                  const Radius.circular(30.0),
                                 ),
-                                prefixIcon: Icon(Icons.email_outlined),
-                                labelText: 'Email'),
+                              ),
+                              prefixIcon: Icon(
+                                Icons.email_outlined,
+                                color: Color(0xff273377),
+                              ),
+                              labelText: 'Email',
+                            ),
                           ),
                           SizedBox(
-                            height: 30,
+                            height: 20,
                           ),
                           TextFormField(
                             controller: _passCtrl,
@@ -69,16 +99,24 @@ class _LoginScreenState extends State<LoginScreen> {
                             },
                             obscureText: true,
                             decoration: InputDecoration(
-                                prefixIcon: Icon(Icons.lock_open),
-                                border: OutlineInputBorder(),
-                                labelText: 'Password'),
+                              border: new OutlineInputBorder(
+                                borderRadius: const BorderRadius.all(
+                                  const Radius.circular(30.0),
+                                ),
+                              ),
+                              prefixIcon: Icon(Icons.vpn_key_outlined,
+                                  color: Color(0xff273377)),
+                              labelText: 'Password',
+                            ),
                           ),
                           SizedBox(
-                            height: 30,
+                            height: 20,
                           ),
                           RaisedButton(
-                            padding: EdgeInsets.fromLTRB(30, 15, 30, 15),
-                            color: Colors.green,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(18.0),
+                            ),
+                            padding: EdgeInsets.fromLTRB(100, 15, 100, 15),
                             onPressed: () {
                               checkValidation();
                               signInWithEmailAndPass(
@@ -86,8 +124,42 @@ class _LoginScreenState extends State<LoginScreen> {
                               // Get.to(LoginPage());
                               clearTextfilde();
                             },
-                            child: Text('SIGN IN'),
-                          )
+                            child: Text(
+                              'LOGIN',
+                              style: TextStyle(
+                                  color: Color(0xff273377),
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Don't have an Account ?",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Color(0xff273377),
+                                ),
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  Get.to(Resgistration());
+                                  print('tapped');
+                                },
+                                child: Text(
+                                  'Register',
+                                  style: TextStyle(
+                                      color: Color(0xff273377),
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              )
+                            ],
+                          ),
                         ],
                       ),
                     ),
@@ -97,7 +169,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ],
           )
         ],
-      )),
+      ),
     );
   }
 
@@ -111,6 +183,7 @@ class _LoginScreenState extends State<LoginScreen> {
         await user.sendEmailVerification();
       }
       Get.to(HomeScreen());
+      print(user.uid + "this is unique id ");
     } catch (e) {
       print(e + 'This is errrrroooorrr');
     }
