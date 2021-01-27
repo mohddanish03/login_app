@@ -251,24 +251,6 @@ class ResgistrationState extends State<Resgistration> {
     }
   }
 
-//sample for registration
-  void register() async {
-    try {
-      UserCredential userCredential = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(
-              email: _passCtrl.text, password: _confirmPassCtrl.text);
-      print(userCredential.additionalUserInfo.username);
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        print('The password provided is too weak.');
-      } else if (e.code == 'email-already-in-use') {
-        print('The account already exists for that email.');
-      }
-    } catch (e) {
-      print(e);
-    }
-  }
-
 //sample for registration ----working--method---
   void _signUp(String email, String password) async {
     await Firebase.initializeApp();
@@ -279,7 +261,6 @@ class ResgistrationState extends State<Resgistration> {
       if (!user.emailVerified) {
         await user.sendEmailVerification();
         Get.to(LoginScreen());
-        final user1 = _auth.currentUser;
       }
     }
   }

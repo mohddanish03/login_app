@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key key}) : super(key: key);
@@ -12,8 +13,30 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Container(
       child: Scaffold(
-        body: Center(
-          child: Text('Welcome '),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Center(
+              child: Container(
+                  width: 100,
+                  height: 100,
+                  decoration: new BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: new DecorationImage(
+                          fit: BoxFit.cover,
+                          image: new NetworkImage(
+                              "https://www.woolha.com/media/2019/06/buneary.jpg")))),
+            ),
+            Text(
+              "Name:Mohammed Danish",
+              style:
+                  GoogleFonts.lato(fontSize: 20, fontWeight: FontWeight.w700),
+            ),
+            Text(
+              "Email:m.dany03@gmail.com",
+              style: GoogleFonts.lato(fontSize: 20),
+            ),
+          ],
         ),
       ),
     );

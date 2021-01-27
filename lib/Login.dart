@@ -3,7 +3,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:login_app/HomePage.dart';
+import 'package:login_app/LoginContoller.dart';
 import 'package:login_app/Registration.dart';
+import 'package:get/get.dart';
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({Key key}) : super(key: key);
@@ -15,6 +17,8 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   @override
   final _auth = FirebaseAuth.instance;
+
+  final LoginController controller = Get.put(LoginController());
 
   final formkey = GlobalKey<FormState>();
 
@@ -123,6 +127,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   _emailCtrl.text, _passCtrl.text);
                               // Get.to(LoginPage());
                               clearTextfilde();
+                              controller.logInSharedPref();
                             },
                             child: Text(
                               'LOGIN',
