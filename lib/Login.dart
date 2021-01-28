@@ -3,9 +3,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:login_app/HomePage.dart';
-import 'package:login_app/LoginContoller.dart';
 import 'package:login_app/Registration.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({Key key}) : super(key: key);
@@ -17,8 +17,6 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   @override
   final _auth = FirebaseAuth.instance;
-
-  final LoginController controller = Get.put(LoginController());
 
   final formkey = GlobalKey<FormState>();
 
@@ -121,13 +119,20 @@ class _LoginScreenState extends State<LoginScreen> {
                               borderRadius: BorderRadius.circular(18.0),
                             ),
                             padding: EdgeInsets.fromLTRB(100, 15, 100, 15),
-                            onPressed: () {
+                            onPressed: () async {
                               checkValidation();
                               signInWithEmailAndPass(
                                   _emailCtrl.text, _passCtrl.text);
                               // Get.to(LoginPage());
-                              clearTextfilde();
-                              controller.logInSharedPref();
+                              SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+                              prefs.setString('email', _emailCtrl.text);
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (BuildContext ctx) =>
+                                          HomeScreen()));
+                              clearTextfield();
                             },
                             child: Text(
                               'LOGIN',
@@ -187,14 +192,14 @@ class _LoginScreenState extends State<LoginScreen> {
       if (!user.emailVerified) {
         await user.sendEmailVerification();
       }
-      Get.to(HomeScreen());
+      // Get.to(HomeScreen());
       print(user.uid + "this is unique id ");
     } catch (e) {
       print(e + 'This is errrrroooorrr');
     }
   }
 
-  clearTextfilde() {
+  clearTextfield() {
     _emailCtrl.clear();
     _passCtrl.clear();
   }

@@ -3,27 +3,25 @@ import 'package:login_app/HomePage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginController extends GetxController {
-  @override
-  void onInit() {
-    check_alreadylogin();
-    print('HomePageController initialized');
+  SharedPreferences loginData;
+
+  alreadylogin() async {
+    SharedPreferences loginData = await SharedPreferences.getInstance();
+    String login = loginData.getString('EmailLogin') ?? '';
+    update();
+    print("This is login " + login.toString());
+    return login;
   }
 
-  SharedPreferences loginData;
-  bool new_user;
-
-  void check_alreadylogin() async {
-    loginData = await SharedPreferences.getInstance();
-    new_user = (loginData.getBool('Login') ?? true);
-    print(new_user);
+  void logInSharedPref(String email) {
+    loginData.setString('EmailLogin', email);
+    update();
+    print(email);
     Get.offAll(HomeScreen());
   }
 
-  void logInSharedPref() {
-    loginData.setBool('Login', false);
-  }
-
   void logOutSharedPref() {
-    loginData.setBool('Login', true);
+    loginData.remove('Login');
+    update();
   }
 }

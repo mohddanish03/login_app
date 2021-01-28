@@ -1,5 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:login_app/Login.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key key}) : super(key: key);
@@ -36,6 +39,21 @@ class _HomeScreenState extends State<HomeScreen> {
               "Email:m.dany03@gmail.com",
               style: GoogleFonts.lato(fontSize: 20),
             ),
+            RaisedButton(
+              onPressed: () async {
+                FirebaseAuth.instance.signOut();
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                prefs.remove('email');
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext ctx) => LoginScreen()));
+              },
+              child: Text(
+                "Log Out",
+                style: GoogleFonts.lato(fontSize: 20),
+              ),
+            )
           ],
         ),
       ),
